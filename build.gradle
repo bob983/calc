@@ -1,0 +1,36 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            url 'http://oss.sonatype.org/content/repositories/snapshots'
+        }
+    }
+    dependencies {
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:0.1-SNAPSHOT'
+    }
+}
+
+apply plugin: "kotlin"
+
+compileKotlin {
+    kotlinOptions.annotations = file('annotations')
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'http://oss.sonatype.org/content/repositories/snapshots'
+    }
+    maven {
+        url "http://repository.jetbrains.com/all"
+    }
+}
+
+dependencies {
+    compile 'com.google.guava:guava:12.0'
+    compile 'org.jetbrains.kotlin:kotlin-stdlib:0.1-SNAPSHOT'
+    compile "org.codehaus.groovy:groovy-all:2.3.8"
+    compile "org.spockframework:spock-core:1.0-groovy-2.3-SNAPSHOT"
+    compile "cglib:cglib-nodep:3.1"          // allows mocking of classes (in addition to interfaces)
+    compile "org.objenesis:objenesis:2.1"
+}
