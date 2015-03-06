@@ -2,13 +2,9 @@ import java.nio.file.Files
 import java.io.File
 import cz.uboba.operation.OperationFactory
 
-trait InstructionParser {
-    fun parse(): List<Instruction>
-}
+class StringParser(val operationFactory: OperationFactory) {
 
-class StringParser(val inputString: String, val operationFactory: OperationFactory) : InstructionParser {
-
-    override fun parse(): List<Instruction> {
+    fun parse(inputString: String): List<Instruction> {
         val instructions = parseInstructions(inputString)
         moveLastItemToFront(instructions)
         return instructions
@@ -33,11 +29,11 @@ class StringParser(val inputString: String, val operationFactory: OperationFacto
 
 }
 
-class FileParser(val filePath: String, val operationFactory: OperationFactory) : InstructionParser {
+class FileParser(val operationFactory: OperationFactory) {
 
-    override fun parse(): List<Instruction> {
+    fun parse(filePath: String): List<Instruction> {
         val fileContent = File(filePath).readText()
-        return StringParser(fileContent, operationFactory).parse()
+        return StringParser(operationFactory).parse(fileContent)
     }
 
 }

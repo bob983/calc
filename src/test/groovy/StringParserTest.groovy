@@ -38,7 +38,7 @@ class StringParserTest extends Specification {
     }
 
     def parse(String input) {
-        new StringParser(input, operationFactory).parse()
+        new StringParser(operationFactory).parse(input)
     }
 
 }
