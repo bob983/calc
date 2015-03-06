@@ -1,5 +1,6 @@
+import cz.uboba.operation.MapBackedOperationFactory
+import cz.uboba.operation.Operation
 import spock.lang.Specification
-import cz.uboba.operation.*
 
 class OperationFactoryImplTest extends Specification {
 
@@ -9,7 +10,7 @@ class OperationFactoryImplTest extends Specification {
         operation.operationName() >> 'op1'
 
         when:
-        def factory = new OperationFactoryImpl([operation]);
+        def factory = new MapBackedOperationFactory([operation]);
 
         then:
         factory.get("op1") == operation
@@ -17,7 +18,7 @@ class OperationFactoryImplTest extends Specification {
 
     def "throws exception for non-existing operation"() {
         setup:
-        def factory = new OperationFactoryImpl([]);
+        def factory = new MapBackedOperationFactory([]);
 
         when:
         factory.get("op1")

@@ -1,9 +1,18 @@
 import cz.uboba.operation.*
 
 fun main(args: Array<String>) {
-    val instructions = OperationScanner.findOperations();
-    val factory = OperationFactoryImpl(instructions)
-    var parser = StringParser("add 1\nmultiply 3\napply 2\n", factory)
-    val calculator = Calculator(parser.parse())
-    println("Result is ${calculator.calculate()}")
+    val filePath = args.get(0)
+
+    var operationFactory = createOperationFactory()
+    var instructions = FileParser(filePath, operationFactory).parse()
+
+    val calculator = Calculator(instructions)
+    var result = calculator.calculate();
+
+    println("Result is ${result}")
+}
+
+fun createOperationFactory(): OperationFactory {
+    val operations = OperationScanner.findOperations();
+    return MapBackedOperationFactory(operations)
 }

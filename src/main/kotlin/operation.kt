@@ -38,37 +38,3 @@ class Multiply : Operation {
     }
 
 }
-
-trait OperationFactory {
-    fun get(operationName: String): Operation
-}
-
-class OperationFactoryImpl(initialOperations: List<Operation>) : OperationFactory {
-    val operationsMap: MutableMap<String, Operation> = hashMapOf();
-
-    {
-        initialOperations.forEach {
-            operationsMap.put(it.operationName(), it)
-        }
-    }
-
-    public override fun get(operationName: String): Operation {
-        val operation: Operation? = operationsMap.get(operationName)
-        if (operation == null) {
-            throw UnsupportedOperationException("Unknown operation : ${operationName}")
-        } else {
-            return operation
-        }
-    }
-}
-
-object OperationScanner {
-
-    public fun findOperations(): List<Operation> {
-        val reflections = Reflections("")
-        val operations = reflections.getSubTypesOf(javaClass<Operation>())
-        return operations
-                .map { it.newInstance() }
-    }
-
-}

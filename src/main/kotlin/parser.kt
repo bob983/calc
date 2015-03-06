@@ -16,16 +16,13 @@ class StringParser(val inputString: String, val operationFactory: OperationFacto
 
     fun parseInstructions(stringOfOperations: String): MutableList<Instruction> {
 
-        fun parse(line: String): Instruction {
-            val chunks = parseInstruction(line)
-            val operation = operationFactory.get(chunks.first)
-            val operand = chunks.second.toInt()
-            return InstructionImpl(operation, operand)
-        }
-
         return stringOfOperations
                 .split("\n")
-                .map(::parse)
+                .map { line ->
+                    val (operationName, value) = line.split(" ")
+                    val operation = operationFactory.get(operationName)
+                    InstructionImpl(operation, value.toInt())
+                }
                 .toLinkedList()
     }
 
@@ -34,10 +31,6 @@ class StringParser(val inputString: String, val operationFactory: OperationFacto
         list.add(0, apply)
     }
 
-    fun parseInstruction(str: String): Pair<String, String> {
-        val chunks = str.split(" ")
-        return Pair(chunks[0], chunks[1])
-    }
 }
 
 class FileParser(val filePath: String, val operationFactory: OperationFactory) : InstructionParser {
