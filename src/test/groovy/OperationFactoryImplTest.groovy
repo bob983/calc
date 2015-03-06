@@ -1,5 +1,5 @@
 import spock.lang.Specification
-
+import cz.uboba.operation.*
 
 class OperationFactoryImplTest extends Specification {
 
@@ -8,10 +8,8 @@ class OperationFactoryImplTest extends Specification {
         def operation = Mock(Operation)
         operation.operationName() >> 'op1'
 
-        def factory = new OperationFactoryImpl();
-
         when:
-        factory.addOperation(operation)
+        def factory = new OperationFactoryImpl([operation]);
 
         then:
         factory.get("op1") == operation
@@ -19,7 +17,7 @@ class OperationFactoryImplTest extends Specification {
 
     def "throws exception for non-existing operation"() {
         setup:
-        def factory = new OperationFactoryImpl();
+        def factory = new OperationFactoryImpl([]);
 
         when:
         factory.get("op1")

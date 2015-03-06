@@ -1,3 +1,8 @@
+package cz.uboba.operation
+
+import org.reflections.Reflections
+import org.reflections.ReflectionUtils
+
 trait Operation {
     fun operationName(): String
     fun apply(operandA: Int, operandB: Int): Int
@@ -35,16 +40,15 @@ class Multiply : Operation {
 }
 
 trait OperationFactory {
-    fun addOperation(vararg operations: Operation)
     fun get(operationName: String): Operation
 }
 
-class OperationFactoryImpl : OperationFactory {
-    val operationsMap: MutableMap<String, Operation> = hashMapOf()
+class OperationFactoryImpl(initialOperations: List<Operation>) : OperationFactory {
+    val operationsMap: MutableMap<String, Operation> = hashMapOf();
 
-    public override fun addOperation(vararg operations: Operation) {
-        for (operation in operations) {
-            operationsMap.put(operation.operationName(), operation)
+    {
+        initialOperations.forEach {
+            operationsMap.put(it.operationName(), it)
         }
     }
 
@@ -56,4 +60,15 @@ class OperationFactoryImpl : OperationFactory {
             return operation
         }
     }
+}
+
+object OperationScanner {
+
+    public fun findOperations(): List<Operation> {
+        val reflections = Reflections("")
+        val operations = reflections.getSubTypesOf(javaClass<Operation>())
+        return operations
+                .map { it.newInstance() }
+    }
+
 }

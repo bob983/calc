@@ -1,3 +1,4 @@
+import cz.uboba.operation.*
 import spock.lang.Specification
 
 class OperationsTest extends Specification {

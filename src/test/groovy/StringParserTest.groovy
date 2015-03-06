@@ -1,5 +1,5 @@
 import spock.lang.Specification
-
+import cz.uboba.operation.*
 
 class StringParserTest extends Specification {
 

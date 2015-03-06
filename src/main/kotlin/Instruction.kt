@@ -1,3 +1,5 @@
+import cz.uboba.operation.Operation
+
 trait Instruction {
     fun execute(input: Int): Int
 }

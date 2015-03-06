@@ -1,11 +1,12 @@
 import java.nio.file.Files
 import java.io.File
+import cz.uboba.operation.OperationFactory
 
 trait InstructionParser {
     fun parse(): List<Instruction>
 }
 
-class StringParser(val inputString: String, val operationFactory : OperationFactory) : InstructionParser {
+class StringParser(val inputString: String, val operationFactory: OperationFactory) : InstructionParser {
 
     override fun parse(): List<Instruction> {
         val instructions = parseInstructions(inputString)
@@ -15,7 +16,7 @@ class StringParser(val inputString: String, val operationFactory : OperationFact
 
     fun parseInstructions(stringOfOperations: String): MutableList<Instruction> {
 
-        fun parse(line : String) : Instruction {
+        fun parse(line: String): Instruction {
             val chunks = parseInstruction(line)
             val operation = operationFactory.get(chunks.first)
             val operand = chunks.second.toInt()
@@ -28,7 +29,7 @@ class StringParser(val inputString: String, val operationFactory : OperationFact
                 .toLinkedList()
     }
 
-    fun <T> moveLastItemToFront(list : MutableList<T>) {
+    fun <T> moveLastItemToFront(list: MutableList<T>) {
         val apply = list.remove(list.size() - 1)
         list.add(0, apply)
     }
@@ -39,7 +40,7 @@ class StringParser(val inputString: String, val operationFactory : OperationFact
     }
 }
 
-class FileParser(val filePath : String, val operationFactory : OperationFactory) : InstructionParser {
+class FileParser(val filePath: String, val operationFactory: OperationFactory) : InstructionParser {
 
     override fun parse(): List<Instruction> {
         val fileContent = File(filePath).readText()
